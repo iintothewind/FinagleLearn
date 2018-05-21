@@ -8,7 +8,7 @@ object Server extends App {
     def apply(req: http.Request): Future[http.Response] =
       Future.value(http.Response(req.version, http.Status.Ok))
   }
-  val server = Http.serve(":8080", service)
+  val server = Http.server.withHttpStats.serve(":8080", service)
   Await.ready(server)
 }
 
