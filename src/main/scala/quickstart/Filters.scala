@@ -9,8 +9,7 @@ import com.twitter.finagle.{Filter, Service, SimpleFilter}
 import com.twitter.util.{Duration, Future, Timer}
 
 class MapFilter[ReqIn, RepOut, ReqOut, RepIn](f1: ReqIn => ReqOut,
-                                              f2: RepIn => RepOut
-                                             )
+                                              f2: RepIn => RepOut)
   extends Filter[ReqIn, RepOut, ReqOut, RepIn] {
   override def apply(request: ReqIn, service: Service[ReqOut, RepIn]): Future[RepOut] =
     service(f1(request)).map(f2)
@@ -23,8 +22,7 @@ class DateFilter extends Filter[String, String, Int, LocalDate] {
 }
 
 class TimeOutFilter[Req, Rep](timer: Timer,
-                              timeout: Duration,
-                             )
+                              timeout: Duration)
   extends Filter[Req, Rep, Req, Rep] {
   override def apply(request: Req, service: Service[Req, Rep]): Future[Rep] =
     service(request).within(timer, timeout)
